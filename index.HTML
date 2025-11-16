@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browser Not Supported</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        
+        /* Deklarasi Variabel CSS */
+        :root {
+            --yellow: 235,186,74;
+            --orange: 232,160,62;
+            --lightblue: 90,198,250;
+            --darkblue: 69,156,227;
+            --red: 227,99,77;
+            --opacity: 0.77;
+        }
+
+        /* Base */
+        body{
+            margin:0;
+            font-family:'Open Sans', sans-serif;
+        }
+
+        .hero{
+            position:relative;
+            min-height:100vh;
+            /* Asumsi gambar background Anda bernama background.jpg di folder assets */
+            background:url("assets/background.jpg") center/cover no-repeat; 
+            overflow:hidden;
+        }
+
+        /* ==========================================================
+        DESKTOP: 5 WARNA OVERLAY HORIZONTAL (DEFAULT)
+        ========================================================== */
+        .color-overlay{
+            position:absolute;
+            inset:0;
+            display:flex;
+            z-index:1;
+        }
+
+        /* Mengatur lebar kolom warna di desktop */
+        .color-overlay .col:nth-child(1){ flex: 0 0 450px; } /* Kuning besar */
+        .color-overlay .col:nth-child(2){ flex: 0 0 150px; } /* Oranye kecil */
+        .color-overlay .col:nth-child(3){ flex: 0 0 150px; } /* Biru muda */
+        .color-overlay .col:nth-child(4){ flex: 0 0 150px; } /* Biru tua */
+        .color-overlay .col:nth-child(5){ flex: 0 0 450px; } /* Merah besar */
+
+        /* Warna */
+        .col-yellow{background:rgba(var(--yellow),var(--opacity));}
+        .col-orange{background:rgba(var(--orange),var(--opacity));}
+        .col-lightblue{background:rgba(var(--lightblue),var(--opacity));}
+        .col-darkblue{background:rgba(var(--darkblue),var(--opacity));}
+        .col-red{background:rgba(var(--red),var(--opacity));}
+
+        /* CARD ABU (WARNING) */
+        .notice{
+            position:relative;
+            z-index:2;
+            width:100%;
+            padding:60px 0;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            margin-top:40px; 
+        }
+
+        .warning-icon{
+            width: 28px;
+            height: 28px;
+            display: block;
+            margin-bottom: 10px;
+            filter: drop-shadow(0 3px 6px rgba(0,0,0,0.25));
+        }
+
+        .notice-inner{
+            width:90%;
+            max-width:900px;
+            background:rgba(67, 66, 66, 0.92);
+            padding:40px 50px;
+            border-radius:12px;
+            color:#fff;
+            text-align:center;
+            box-shadow:0 6px 25px rgba(0,0,0,0.35);
+        }
+
+        .notice-inner h1 {
+            font-size: 1.5em;
+        }
+        
+        /* PERBAIKAN: Agar teks tebal pada <h1> muncul di desktop */
+        .notice-inner h1 b {
+            font-weight: 700;
+        }
+
+
+        /* ==========================================================
+        BROWSER LIST - DESKTOP (5 KOLOM HORIZONTAL)
+        ========================================================== */
+
+        .browsers{
+            position:relative;
+            margin-top:40px;
+            z-index:2;
+            display:flex; /* Layout horizontal untuk desktop */
+            justify-content:center;
+            padding:0 20px 40px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Mengatur posisi browser di desktop agar sesuai dengan overlay */
+        .browsers .browser:nth-child(1){ flex:0 0 17%; transform:translateX(20px); } 
+        .browsers .browser:nth-child(2){ flex:0 0 17%; } 
+        .browsers .browser:nth-child(3){ flex:0 0 17%; } 
+        .browsers .browser:nth-child(4){ flex:0 0 17%; } 
+        .browsers .browser:nth-child(5){ flex:0 0 17%; transform:translateX(-20px); } 
+
+
+        /* Style isi browser di desktop */
+        .browser{
+            display:flex;
+            flex-direction:column; /* Susunan vertikal di dalam kolom */
+            align-items:center;
+            text-align:center;
+            gap:8px;
+            color:#fff;
+            background: none; /* Tidak ada warna background, hanya overlay */
+        }
+
+        /* PERBAIKAN: Agar ikon berwarna putih di desktop seperti di gambar */
+        .browser .icon{
+            width:55px;
+            filter: brightness(0) invert(1); 
+        }
+
+        .browser .title{
+            font-size:13px;
+            font-weight:700;
+        }
+
+        .browser .version{
+            font-size:12px;
+            opacity:0.9;
+        }
+
+        .browser .info-group {
+            margin-bottom: 10px; 
+        }
+
+        /* Di desktop, gunakan tombol teks 'Download' */
+        .download-icon-container {
+            text-decoration: none;
+        }
+        .download-icon-container .download-icon { display: none; } /* Sembunyikan ikon SVG */ 
+        .download-icon-container .download { 
+            display: inline-block; /* Tampilkan tombol teks */
+            padding: 8px 14px;
+            border-radius: 5px;
+            border: 2px solid rgba(255,255,255,0.9);
+            background: rgba(255,255,255,0.06);
+            color: #fff;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        /* ==========================================================
+        BUTTONS (Umum)
+        ========================================================== */
+        .btn-secondary{
+            display: inline-block;
+            padding: 8px 14px;
+            border-radius: 5px;
+            border: 2px solid rgba(255,255,255,0.9);
+            background: rgba(255,255,255,0.06);
+            color: #fff;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            backdrop-filter: blur(3px);
+            transition: 0.3s;
+        }
+
+        .btn-secondary:hover{
+            background: rgba(255,255,255,0.18);
+        }
+
+        .download-icon-container:hover .download{
+            background: rgba(255,255,255,0.18);
+        }
+
+
+        /* ==========================================================
+        RESPONSIVE (MOBILE) - PENYESUAIAN KHUSUS (Tampilan Vertikal 1 Kolom)
+        ========================================================== */
+        @media(max-width:768px){
+
+            /* NOTICE CARD di Mobile */
+            .notice-inner {
+                width: 100%;
+                padding: 30px 20px;
+                border-radius: 0; 
+                box-shadow: none;
+                max-width: none;
+            }
+
+            .notice{
+                margin-top: 0; 
+                padding: 0;
+            }
+            
+            .notice-inner h1 {
+                font-size: 1.2em;
+            }
+
+            /* BACKGROUND: Hapus overlay horizontal, karena warna akan diterapkan pada baris browser */
+            .color-overlay{ display: none; }
+            .hero{ background-size: cover; background-position: center top; } 
+
+            /* =========================
+            BROWSER LIST di Mobile (BARIS PENUH, VERTICAL)
+            ========================= */
+            .browsers{
+                flex-direction:column; /* Susunan vertikal di mobile */
+                gap: 0; 
+                padding: 0;
+                margin-top: 0;
+                max-width: none;
+                align-items: stretch; /* Mengisi lebar penuh */
+            }
+
+            /* Setiap browser mengambil lebar penuh dan menjadi baris */
+            .browser{
+                width: 100%;
+                transform:none !important;
+                padding: 18px 25px; 
+                box-sizing: border-box;
+                display: flex;
+                flex-direction: row; /* Layout baris horizontal */
+                align-items: center;
+                text-align: left;
+                justify-content: space-between;
+            }
+            
+            /* Menerapkan warna latar belakang langsung pada baris browser */
+            .browsers .browser:nth-child(1){ background: rgba(var(--yellow),var(--opacity)); }
+            .browsers .browser:nth-child(2){ background: rgba(var(--orange),var(--opacity)); }
+            .browsers .browser:nth-child(3){ background: rgba(var(--lightblue),var(--opacity)); }
+            .browsers .browser:nth-child(4){ background: rgba(var(--darkblue),var(--opacity)); }
+            .browsers .browser:nth-child(5){ background: rgba(var(--red),var(--opacity)); }
+            
+            /* Mengatur lebar flex untuk ikon, grup info, dan ikon download */
+            .browser .icon { 
+                width: 35px; /* Ukuran ikon mobile lebih kecil */
+                margin-right: 15px; 
+                filter: none; /* MEMASTIKAN IKON TIDAK HITAM PUTIH */
+            }
+
+            .browser .info-group {
+                flex-grow: 1; 
+                display: flex;
+                flex-direction: column;
+            }
+            
+            /* Font size di mobile */
+            .browser .title { 
+                font-size: 14px; 
+                margin-bottom: 0; 
+            }
+            .browser .version { font-size: 12px; }
+
+            /* Ikon Download di mobile */
+            .download-icon-container {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-left: auto;
+            }
+            
+            .download-icon-container .download-icon { display: block; } /* Tampilkan ikon SVG */
+            .download-icon-container .download { display: none; } /* Sembunyikan tombol teks */
+            
+            .download-icon {
+                width: 30px;
+                height: 30px;
+                filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); 
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <main class="hero">
+        
+        <div class="color-overlay">
+            <div class="col col-yellow"></div>
+            <div class="col col-orange"></div>
+            <div class="col col-lightblue"></div>
+            <div class="col col-darkblue"></div>
+            <div class="col col-red"></div>
+        </div>
+        
+        <section class="notice">
+            <div class="notice-inner">
+                <img src="assets/exclamation-triangle.svg" class="warning-icon" alt="Warning Icon"> 
+                <h1>Your browser <b>Internet Explorer 11 is deprecated</b></h1>
+                <p class="lead">Modern browsers protect your device from viruses and support new technologies.</p>
+                <p class="text">
+                    That’s why we decided to stop supporting your current browser or your browser version.
+                    To access our website, please download one of the browsers below.
+                </p>
+                <a href="#" class="btn-secondary">How do I update my browser?</a>
+            </div>
+        </section>
+        
+        <section class="browsers">
+
+            <div class="browser">
+                <img src="assets/chrome.svg" class="icon" alt="Google Chrome Logo">
+                <div class="info-group">
+                    <div class="title">GOOGLE CHROME</div>
+                    <div class="version">Version 40+</div>
+                </div>
+                <a href="#" class="download-icon-container">
+                    <svg class="download-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="24px" height="24px"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                    <span class="download">Download</span> </a>
+            </div>
+
+            <div class="browser">
+                <img src="assets/firefox-browser.svg" class="icon" alt="Mozilla Firefox Logo">
+                <div class="info-group">
+                    <div class="title">MOZILLA FIREFOX</div>
+                    <div class="version">Version 40+</div>
+                </div>
+                <a href="#" class="download-icon-container">
+                    <svg class="download-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="24px" height="24px"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                    <span class="download">Download</span>
+                </a>
+            </div>
+
+            <div class="browser">
+                <img src="assets/edge.svg" class="icon" alt="Microsoft Edge Logo">
+                <div class="info-group">
+                    <div class="title">MICROSOFT EDGE</div>
+                    <div class="version">Version 40+</div>
+                </div>
+                <a href="#" class="download-icon-container">
+                    <svg class="download-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="24px" height="24px"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                    <span class="download">Download</span>
+                </a>
+            </div>
+
+            <div class="browser">
+                <img src="assets/safari.svg" class="icon" alt="Apple Safari Logo">
+                <div class="info-group">
+                    <div class="title">APPLE SAFARI</div>
+                    <div class="version">Version 40+</div>
+                </div>
+                <a href="#" class="download-icon-container">
+                    <svg class="download-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="24px" height="24px"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                    <span class="download">Download</span>
+                </a>
+            </div>
+
+            <div class="browser">
+                <img src="assets/opera.svg" class="icon" alt="Opera Logo">
+                <div class="info-group">
+                    <div class="title">OPERA</div>
+                    <div class="version">Version 40+</div>
+                </div>
+                <a href="#" class="download-icon-container">
+                    <svg class="download-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="24px" height="24px"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                    <span class="download">Download</span>
+                </a>
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
